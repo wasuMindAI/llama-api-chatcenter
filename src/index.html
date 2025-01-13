@@ -4,10 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>llama index api test</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        h1, h2, h3 {
+            color: #4a5568;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        table thead {
+            background-color: #007bff;
+            color: white;
+        }
+
+        table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        embed {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #6c757d;
+        }
+    </style>
 </head>
 <body>
-    <h1>ข้อมูลสำหรับการเทรน AI</h1>
-    <embed src="documents/General_information.pdf" type="application/pdf" width="100%" height="1000" />
+    <div class="container">
+        <h1>ข้อมูลสำหรับการเทรน AI</h1>
+
+        <h3>ข้อมูลทั่วไป</h3>
+        <embed src="documents/General_information.pdf" type="application/pdf" width="100%" height="800" />
+
+        <h3 class="mt-4">ข้อมูลแพ็กเกจ</h3>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered" id="packages-table">
+                <thead>
+                    <tr>
+                        <th>Package Name</th>
+                        <th>Price (THB)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 AI Training Data | Developed with ❤️</p>
+    </footer>
+
+    <script>
+        // Function to fetch and display packages
+        fetch('https://e92c-184-82-123-167.ngrok-free.app/api/packages', {
+            method: "POST"
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                console.log(response);
+                return response.json();
+            })
+            .then(data => {
+                const tableBody = document.querySelector('#packages-table tbody');
+                data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row["Package Name"]}</td>
+                        <td>${row["Price (THB)"]}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            })
+            .catch(error => console.error('Error fetching packages:', error));
+    </script>
 
     <!-- Start of Chat Widget code -->
     <script src="https://uapp.unicorntechint.com/js/widget.js" contact_id="84" x_id="W-S48YCHSO29RMCP44WKS9323ES3LVK1HXF3WZ" m_name="Nong PiPi " m_img="https://storagesocialprd.blob.core.windows.net/public/84_1736239662605_39b7e022-4342-4e86-ae5b-d53b54ce9897.png" m_img_icon="https://storagesocialprd.blob.core.windows.net/public/84_1736239665228_39876785-3cc1-49c8-8bff-2b0974d34353.png" color="#5e85d5" company="Mind AI x Unicorn Tech" m_active="false" all_active="true" obj_widget_id="104"></script>
